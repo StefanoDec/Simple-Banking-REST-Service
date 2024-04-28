@@ -2,7 +2,7 @@ package it.univaq.sose.simplebankingrestservice.repository;
 
 import it.univaq.sose.simplebankingrestservice.domain.Account;
 import it.univaq.sose.simplebankingrestservice.domain.Role;
-import it.univaq.sose.simplebankingrestservice.webservice.NotFoundException;
+import it.univaq.sose.simplebankingrestservice.webapi.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

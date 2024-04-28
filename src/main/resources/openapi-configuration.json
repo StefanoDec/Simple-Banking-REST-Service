@@ -7,8 +7,8 @@
   "openAPI": {
     "info": {
       "version": "1.0.0",
-      "title": "The name of the API goes here!",
-      "description": "The description of the API goes here!",
+      "title": "SimpleBankingRESTService",
+      "description": "TLittle Apache CXF Project for Banking System.",
       "contact": {
         "email": "cxf-dev@apache.org"
       },
@@ -20,7 +20,7 @@
     "servers": [
       {
         "url": "http://localhost:8080/SimpleBankingRESTService/rest",
-        "description": "The description of the Server goes here!"
+        "description": "Little Apache CXF Project for Banking System."
       }
     ]
   },

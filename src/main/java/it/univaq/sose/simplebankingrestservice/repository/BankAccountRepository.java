@@ -1,8 +1,8 @@
 package it.univaq.sose.simplebankingrestservice.repository;
 
 import it.univaq.sose.simplebankingrestservice.domain.BankAccount;
-import it.univaq.sose.simplebankingrestservice.webservice.InsufficientFundsException;
-import it.univaq.sose.simplebankingrestservice.webservice.NotFoundException;
+import it.univaq.sose.simplebankingrestservice.webapi.InsufficientFundsException;
+import it.univaq.sose.simplebankingrestservice.webapi.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
