@@ -1,4 +1,4 @@
-package it.univaq.sose.simplebankingrestservice.webservice;
+package it.univaq.sose.simplebankingrestservice.webapi;
 
 public class NotFoundException extends Exception {
     private static final long serialVersionUID = 1292673996797365627L;
