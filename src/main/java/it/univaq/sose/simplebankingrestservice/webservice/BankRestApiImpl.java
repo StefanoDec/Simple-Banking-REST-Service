@@ -11,7 +11,7 @@ public class BankRestApiImpl implements BankRestApi {
     private BankAccountRepository bankAccountRepository = BankAccountRepository.getInstance();
 
     @Override
-    public int getBank() {
+    public Integer getBank() {
         return 1;
     }
 }

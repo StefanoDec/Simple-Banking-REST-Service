@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          id="WebApp_ID" version="3.1">
 
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>SimpleBankingRESTService</display-name>
 
     <servlet>
         <servlet-name>CXFNonSpringJaxrsServlet</servlet-name>
@@ -21,12 +21,18 @@
             <param-name>jaxrs.providers</param-name>
             <param-value>com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider</param-value>
         </init-param>
-        <!--<init-param>
-          <param-name>jaxrs.features</param-name>
-          <param-value>org.apache.cxf.jaxrs.openapi.OpenApiFeature(
-            configLocation=openapi-configuration.json)</param-value>
-        </init-param>-->
+        <init-param>
+            <param-name>jaxrs.features</param-name>
+            <param-value>org.apache.cxf.jaxrs.openapi.OpenApiFeature(
+                configLocation=openapi-configuration.json)
+            </param-value>
+        </init-param>
     </servlet>
+
+    <!--
+     http://localhost:8080/TodoRESTServiceOpenApiSwagger/rest/api-docs
+     http://localhost:8080/TodoRESTServiceOpenApiSwagger/rest/api-docs/?url=http://localhost:8080/TodoRESTServiceOpenApiSwagger/rest/openapi.json
+     -->
 
 
     <servlet-mapping>

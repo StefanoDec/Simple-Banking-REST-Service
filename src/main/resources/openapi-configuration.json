@@ -1,0 +1,30 @@
+{
+  "resourcePackages": [
+    "it.univaq.sose.simplebankingrestservice"
+  ],
+  "prettyPrint": true,
+  "cacheTTL": 0,
+  "openAPI": {
+    "info": {
+      "version": "1.0.0",
+      "title": "The name of the API goes here!",
+      "description": "The description of the API goes here!",
+      "contact": {
+        "email": "cxf-dev@apache.org"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/SimpleBankingRESTService/rest",
+        "description": "The description of the Server goes here!"
+      }
+    ]
+  },
+  "userDefinedOptions": {
+    "support.swagger.ui": true
+  }
+}
