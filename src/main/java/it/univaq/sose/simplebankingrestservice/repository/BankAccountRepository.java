@@ -1,8 +1,8 @@
 package it.univaq.sose.simplebankingrestservice.repository;
 
-import it.univaq.sose.simplebankingrestservice.InsufficientFundsException;
-import it.univaq.sose.simplebankingrestservice.NotFoundException;
 import it.univaq.sose.simplebankingrestservice.domain.BankAccount;
+import it.univaq.sose.simplebankingrestservice.webservice.InsufficientFundsException;
+import it.univaq.sose.simplebankingrestservice.webservice.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +13,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class BankAccountRepository {
     private static volatile BankAccountRepository instance;
     private final Map<Long, BankAccount> bankAccounts;
-    private final ReentrantReadWriteLock lock;
     private long lastIndex;
+    private final ReentrantReadWriteLock lock;
 
     private BankAccountRepository() {
         if (instance != null) {
@@ -106,7 +106,7 @@ public class BankAccountRepository {
         try {
             BankAccount bankAccount = bankAccounts.get(idBankAccount);
             if (bankAccount == null) {
-                throw new NotFoundException("Account with ID " + amount + " not found.");
+                throw new NotFoundException("Account with ID " + idBankAccount + " not found.");
             }
             if (bankAccount.getMoney() < amount) {
                 throw new InsufficientFundsException("Insufficient funds for withdrawal.");
@@ -135,23 +135,15 @@ public class BankAccountRepository {
     public String generateNewBankAccountNumber() {
         lock.readLock().lock();
         try {
-            if (!bankAccounts.isEmpty()) {
+            String base = "IT60X0542811101";
+            String indexAsString = Long.toString(lastIndex + 2);
+            int remainingLength = 12 - indexAsString.length();
+            StringBuilder zeros = new StringBuilder();
+            for (int i = 0; i < remainingLength; i++) {
+                zeros.append("0");
+            }
+            return base + zeros + indexAsString;
 
-                String iban = bankAccounts.get((long) bankAccounts.size() - 1).getBankAccountNumber();
-                int length = iban.length();
-                String numericPart = iban.substring(length - 12, length);
-                long number;
-
-                try {
-                    number = Long.parseLong(numericPart);
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("L'IBAN fornito non è valido.");
-                }
-
-                number++; // incrementa il numero
-                String newNumericPart = String.format("%012d", number); // mantiene gli zeri iniziali se necessario
-                return iban.substring(0, length - 12) + newNumericPart;
-            } else return "IT60X0542811101000000000001";
         } finally {
             lock.readLock().unlock();
         }

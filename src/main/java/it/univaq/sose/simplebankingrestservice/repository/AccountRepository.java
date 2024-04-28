@@ -1,9 +1,8 @@
 package it.univaq.sose.simplebankingrestservice.repository;
 
-
-import it.univaq.sose.simplebankingrestservice.NotFoundException;
 import it.univaq.sose.simplebankingrestservice.domain.Account;
 import it.univaq.sose.simplebankingrestservice.domain.Role;
+import it.univaq.sose.simplebankingrestservice.webservice.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +18,8 @@ public class AccountRepository {
     private static volatile AccountRepository instance;
 
     private final Map<Long, Account> accounts;
-    private final ReentrantReadWriteLock lock;
     private long lastIndex;
+    private final ReentrantReadWriteLock lock;
 
     private AccountRepository() {
         if (instance != null) {
@@ -106,6 +105,16 @@ public class AccountRepository {
             long id = getNextIndex();
             account.setIdAccount(id);
             accounts.put(id, account);
+            return account.getIdAccount();
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public long updateIdBankAccount(Account account) {
+        lock.writeLock().lock();
+        try {
+            accounts.get(account.getIdAccount()).setIdBankAccount(account.getIdBankAccount());
             return account.getIdAccount();
         } finally {
             lock.writeLock().unlock();

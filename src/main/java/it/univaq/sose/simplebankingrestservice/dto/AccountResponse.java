@@ -1,5 +1,7 @@
 package it.univaq.sose.simplebankingrestservice.dto;
 
+import it.univaq.sose.simplebankingrestservice.domain.Role;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -7,14 +9,16 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OpenBankAccountRequest", propOrder = {
+@XmlType(name = "AccountResponse", propOrder = {
+        "idAccount",
         "name",
         "surname",
-        "money",
         "username",
-        "password"
+        "role"
 })
-public class OpenBankAccountRequest {
+public class AccountResponse {
+    @XmlElement(required = true)
+    private long idAccount;
 
     @XmlElement(required = true)
     private String name;
@@ -23,23 +27,21 @@ public class OpenBankAccountRequest {
     private String surname;
 
     @XmlElement(required = true)
-    private float money;
-
-    @XmlElement(required = true)
     private String username;
 
     @XmlElement(required = true)
-    private String password;
+    private Role role;
 
-    public OpenBankAccountRequest() {
+
+    public AccountResponse() {
     }
 
-    public OpenBankAccountRequest(String name, String surname, float money, String username, String password) {
+    public AccountResponse(long idAccount, String name, String surname, String username, Role role) {
+        this.idAccount = idAccount;
         this.name = name;
         this.surname = surname;
-        this.money = money;
         this.username = username;
-        this.password = password;
+        this.role = role;
     }
 
     public String getName() {
@@ -58,14 +60,6 @@ public class OpenBankAccountRequest {
         this.surname = surname;
     }
 
-    public float getMoney() {
-        return money;
-    }
-
-    public void setMoney(float money) {
-        this.money = money;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -74,28 +68,35 @@ public class OpenBankAccountRequest {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public Role getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public long getIdAccount() {
+        return idAccount;
+    }
+
+    public void setIdAccount(long idAccount) {
+        this.idAccount = idAccount;
     }
 
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OpenBankAccountRequest)) return false;
+        if (!(o instanceof AccountResponse)) return false;
 
-        OpenBankAccountRequest that = (OpenBankAccountRequest) o;
-        return Float.compare(getMoney(), that.getMoney()) == 0 && Objects.equals(getName(), that.getName()) && Objects.equals(getSurname(), that.getSurname());
+        AccountResponse that = (AccountResponse) o;
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getSurname(), that.getSurname());
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hashCode(getName());
         result = 31 * result + Objects.hashCode(getSurname());
-        result = 31 * result + Float.hashCode(getMoney());
         result = 31 * result + Objects.hashCode(getUsername());
         return result;
     }
@@ -103,11 +104,12 @@ public class OpenBankAccountRequest {
     @Override
     public String toString() {
         return "OpenBankAccountRequest{" +
-                "name='" + name + '\'' +
+                "idAccount='" + idAccount + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", money='" + money + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
+
 }

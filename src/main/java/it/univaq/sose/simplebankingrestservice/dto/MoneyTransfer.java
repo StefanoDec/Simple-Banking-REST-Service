@@ -1,13 +1,22 @@
 package it.univaq.sose.simplebankingrestservice.dto;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
-@XmlRootElement(name = "MoneyTransfer")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "MoneyTransfer", propOrder = {
+        "idBankAccount",
+        "amount"
+})
 public class MoneyTransfer {
 
+    @XmlElement(required = true)
     private long idBankAccount;
 
+    @XmlElement(required = true)
     private float amount;
 
     public MoneyTransfer() {
@@ -22,12 +31,12 @@ public class MoneyTransfer {
         return idBankAccount;
     }
 
-    public void setIdBankAccount(long idBankAccount) {
-        this.idBankAccount = idBankAccount;
-    }
-
     public float getAmount() {
         return amount;
+    }
+
+    public void setIdBankAccount(long idBankAccount) {
+        this.idBankAccount = idBankAccount;
     }
 
     public void setAmount(float amount) {

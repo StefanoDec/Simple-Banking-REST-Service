@@ -1,4 +1,4 @@
-package it.univaq.sose.simplebankingrestservice;
+package it.univaq.sose.simplebankingrestservice.webservice;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
