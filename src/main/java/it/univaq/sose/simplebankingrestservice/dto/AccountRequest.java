@@ -1,29 +1,17 @@
 package it.univaq.sose.simplebankingrestservice.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AccountRequest", propOrder = {
-        "name",
-        "surname",
-        "username",
-        "password"
-})
+@XmlRootElement(name = "AccountRequest")
 public class AccountRequest {
-    @XmlElement(required = true)
+
     private String name;
 
-    @XmlElement(required = true)
     private String surname;
 
-    @XmlElement(required = true)
     private String username;
 
-    @XmlElement(required = true)
     private String password;
 
 

@@ -113,7 +113,7 @@ public class BankRestApiImpl implements BankRestApi {
     }
 
     @Override
-    public AccountAndBankAccount depositMoneyInBankAccount(MoneyTransfer moneyTransfer) throws NotFoundException {
+    public AccountAndBankAccount depositMoneyInBankAccount(MoneyTransfer moneyTransfer, long id) throws NotFoundException {
 //       AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(wsContext);
         BankAccount bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         Account account = accountRepository.findById(bankAccount.getAccount());
@@ -129,7 +129,7 @@ public class BankRestApiImpl implements BankRestApi {
     }
 
     @Override
-    public AccountAndBankAccount withdrawMoneyInBankAccount(MoneyTransfer moneyTransfer) throws NotFoundException, InsufficientFundsException {
+    public AccountAndBankAccount withdrawMoneyInBankAccount(MoneyTransfer moneyTransfer, long id) throws NotFoundException, InsufficientFundsException {
 //        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(wsContext);
         BankAccount bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         Account account = accountRepository.findById(bankAccount.getAccount());

@@ -1,6 +1,7 @@
 package it.univaq.sose.simplebankingrestservice.webapi;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -17,8 +18,9 @@ public interface BankRestApi {
 
     @Operation(operationId = "getAllServiceAccounts", description = "getAllServiceAccounts", responses = {
             @ApiResponse(description = "Admin and Banker Account", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountResponse.class)),
-                    @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountResponse.class)),})
+                    @Content(mediaType = MediaType.TEXT_XML, array = @ArraySchema(schema = @Schema(implementation = AccountResponse.class))),
+                    @Content(mediaType = MediaType.APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = AccountResponse.class))),
+                    @Content(mediaType = MediaType.APPLICATION_XML, array = @ArraySchema(schema = @Schema(implementation = AccountResponse.class)))})
     })
     @GET
     @Path("/account/service")
@@ -58,8 +60,8 @@ public interface BankRestApi {
 
     @Operation(operationId = "getAllAccountsAndBankAccounts", description = "getAllAccountsAndBankAccounts", responses = {
             @ApiResponse(description = "Customer Bank Accounts", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountAndBankAccount.class)),
-                    @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
+                    @Content(mediaType = MediaType.APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = AccountAndBankAccount.class))),
+                    @Content(mediaType = MediaType.APPLICATION_XML, array = @ArraySchema(schema = @Schema(implementation = AccountAndBankAccount.class)))})
     })
     @GET
     @Path("/account/bank-account")
@@ -71,7 +73,7 @@ public interface BankRestApi {
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
     })
     @GET
-    @Path("/account/bank-account/{id}")
+    @Path("/account/{id}/bank-account")
     public AccountAndBankAccount getAccountAndBankAccount(@PathParam(value = "id") long id) throws NotFoundException;
 
     @Operation(operationId = "saveAccountAndBankAccount", description = "saveAccountAndBankAccount", responses = {
@@ -105,7 +107,7 @@ public interface BankRestApi {
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
     })
     @PUT
-    @Path("/account/bank-account/deposit")
+    @Path("/account/bank-account/{id}/deposit")
     public AccountAndBankAccount depositMoneyInBankAccount(@RequestBody(description = "Money Transfer",
             required = true,
             content = {@Content(mediaType = MediaType.APPLICATION_JSON,
@@ -113,7 +115,7 @@ public interface BankRestApi {
                     @Content(mediaType = MediaType.APPLICATION_XML,
                             schema = @Schema(implementation = MoneyTransfer.class)),
             }
-    ) MoneyTransfer moneyTransfer) throws NotFoundException;
+    ) MoneyTransfer moneyTransfer, @PathParam(value = "id") long id) throws NotFoundException;
 
     @Operation(operationId = "withdrawMoneyInBankAccount", description = "withdrawMoneyInBankAccount", responses = {
             @ApiResponse(description = "Withdraw money in Bank Account", content = {
@@ -121,7 +123,7 @@ public interface BankRestApi {
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
     })
     @PUT
-    @Path("/account/bank-account/withdraw")
+    @Path("/account/bank-account/{id}/withdraw")
     public AccountAndBankAccount withdrawMoneyInBankAccount(@RequestBody(description = "Money Transfer",
             required = true,
             content = {@Content(mediaType = MediaType.APPLICATION_JSON,
@@ -129,7 +131,7 @@ public interface BankRestApi {
                     @Content(mediaType = MediaType.APPLICATION_XML,
                             schema = @Schema(implementation = MoneyTransfer.class)),
             }
-    ) MoneyTransfer moneyTransfer) throws NotFoundException, InsufficientFundsException;
+    ) MoneyTransfer moneyTransfer, @PathParam(value = "id") long id) throws NotFoundException, InsufficientFundsException;
 
 
 }
