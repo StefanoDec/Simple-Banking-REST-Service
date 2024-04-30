@@ -158,8 +158,17 @@ public class BankRestApiImpl implements BankRestApi {
 
     @Override
     public Response login(UserCredentials credentials) {
-        String token = JwtUtil.createJwtToken(credentials.getUsername(), Role.ADMIN);
-        return Response.ok(new TokenResponse(token)).build();
+        Account account;
+        try {
+            account = accountRepository.findByUsername(credentials.getUsername());
+        } catch (NotFoundException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("{\"error\": \"Invalid username or password\"}").build();
+        }
+        if (account.getPassword().equals(credentials.getPassword())) {
+            String token = JwtUtil.createJwtToken(credentials.getUsername(), Role.ADMIN);
+            return Response.ok(new TokenResponse(token)).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).entity("{\"error\": \"Invalid username or password\"}").build();
     }
 
 }
