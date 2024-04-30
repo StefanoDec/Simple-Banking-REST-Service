@@ -6,9 +6,16 @@ import it.univaq.sose.simplebankingrestservice.domain.Role;
 import it.univaq.sose.simplebankingrestservice.dto.*;
 import it.univaq.sose.simplebankingrestservice.repository.AccountRepository;
 import it.univaq.sose.simplebankingrestservice.repository.BankAccountRepository;
+import it.univaq.sose.simplebankingrestservice.security.AccountDetails;
+import it.univaq.sose.simplebankingrestservice.security.JwtUtil;
+import it.univaq.sose.simplebankingrestservice.util.AuthenticationUtils;
+import org.apache.cxf.interceptor.security.AuthenticationException;
+import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +25,10 @@ public class BankRestApiImpl implements BankRestApi {
     private static final Logger LOG = LoggerFactory.getLogger(BankRestApiImpl.class);
     private AccountRepository accountRepository = AccountRepository.getInstance();
     private BankAccountRepository bankAccountRepository = BankAccountRepository.getInstance();
+
+    @Context
+    MessageContext jaxrsContext;
+
 
     @Override
     public List<AccountResponse> getAllServiceAccounts() {
@@ -74,11 +85,11 @@ public class BankRestApiImpl implements BankRestApi {
 
     @Override
     public AccountAndBankAccount getAccountAndBankAccount(long id) throws NotFoundException {
-//        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(wsContext);
+        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(jaxrsContext);
         Account account = accountRepository.findById(id);
-//        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
-//            throw new AuthenticationException("You are not authorised to make this request");
-//        }
+        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
+            throw new AuthenticationException("You are not authorised to make this request");
+        }
         BankAccount bankAccount = bankAccountRepository.findById(account.getIdBankAccount());
         LOG.info("Risposta getAccountAndBankAccount");
         AccountAndBankAccount accountAndBankAccount = new AccountAndBankAccount(account.getIdAccount(), account.getName(), account.getSurname(), account.getUsername(), bankAccount);
@@ -114,12 +125,12 @@ public class BankRestApiImpl implements BankRestApi {
 
     @Override
     public AccountAndBankAccount depositMoneyInBankAccount(MoneyTransfer moneyTransfer, long id) throws NotFoundException {
-//       AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(wsContext);
+        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(jaxrsContext);
         BankAccount bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         Account account = accountRepository.findById(bankAccount.getAccount());
-//        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
-//            throw new AuthenticationException("You are not authorised to make this request");
-//        }
+        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
+            throw new AuthenticationException("You are not authorised to make this request");
+        }
         bankAccountRepository.addMoney(moneyTransfer.getIdBankAccount(), moneyTransfer.getAmount());
         bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         AccountAndBankAccount accountAndBankAccount = new AccountAndBankAccount(account.getIdAccount(), account.getName(), account.getSurname(), account.getUsername(), bankAccount);
@@ -130,18 +141,24 @@ public class BankRestApiImpl implements BankRestApi {
 
     @Override
     public AccountAndBankAccount withdrawMoneyInBankAccount(MoneyTransfer moneyTransfer, long id) throws NotFoundException, InsufficientFundsException {
-//        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(wsContext);
+        AccountDetails authenticationDetails = AuthenticationUtils.getAuthenticationDetails(jaxrsContext);
         BankAccount bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         Account account = accountRepository.findById(bankAccount.getAccount());
-//        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
-//            throw new AuthenticationException("You are not authorised to make this request");
-//        }
+        if (authenticationDetails.getRole().equals(Role.CUSTOMER) && !account.getUsername().equals(authenticationDetails.getUsername())) {
+            throw new AuthenticationException("You are not authorised to make this request");
+        }
         bankAccountRepository.removeMoney(moneyTransfer.getIdBankAccount(), moneyTransfer.getAmount());
         bankAccount = bankAccountRepository.findById(moneyTransfer.getIdBankAccount());
         AccountAndBankAccount accountAndBankAccount = new AccountAndBankAccount(account.getIdAccount(), account.getName(), account.getSurname(), account.getUsername(), bankAccount);
         LOG.info("Risposta withdrawMoneyInBankAccount");
         LOG.info("{}", accountAndBankAccount);
         return accountAndBankAccount;
+    }
+
+    @Override
+    public Response login(UserCredentials credentials) {
+        String token = JwtUtil.createJwtToken(credentials.getUsername(), Role.ADMIN);
+        return Response.ok(new TokenResponse(token)).build();
     }
 
 }

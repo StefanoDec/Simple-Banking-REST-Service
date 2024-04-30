@@ -43,13 +43,34 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- Open Api and Swagger -->
-        <!-- note: a OpenApiFeature must be configured in the CXFNonSpringJaxrsServlet  -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-jose</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-jose-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-ext-jdk15on</artifactId>
+            <version>1.70</version>
+        </dependency>
 
         <dependency>
           <groupId>org.apache.cxf</groupId>
           <artifactId>cxf-rt-rs-service-description-openapi-v3</artifactId>
-          <version>3.4.1</version>
+          <version>${cxf.version}</version>
         </dependency>
 
         <dependency>

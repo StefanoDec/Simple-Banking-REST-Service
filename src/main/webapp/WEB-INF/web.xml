@@ -19,8 +19,12 @@
         </init-param>
         <init-param>
             <param-name>jaxrs.providers</param-name>
-            <param-value>com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider,
-                it.univaq.sose.simplebankingrestservice.filters.RequestLoggingFilter
+            <param-value>
+                com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider,
+                it.univaq.sose.simplebankingrestservice.filters.RequestLoggingFilter,
+                it.univaq.sose.simplebankingrestservice.security.BankJwtAuthenticationFilter,
+                it.univaq.sose.simplebankingrestservice.security.BankSecureAnnotationsInterceptor,
+                it.univaq.sose.simplebankingrestservice.security.BankSimpleAuthorizingFilter
             </param-value>
         </init-param>
         <init-param>
