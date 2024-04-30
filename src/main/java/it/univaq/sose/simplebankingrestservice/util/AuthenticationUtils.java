@@ -20,6 +20,7 @@ public final class AuthenticationUtils {
         AccountRepository accountRepository = AccountRepository.getInstance();
         if (jaxrsContext.getSecurityContext() != null && jaxrsContext.getSecurityContext().getUserPrincipal() != null) {
             try {
+                LOG.debug("jaxrsContext.getSecurityContext().getUserPrincipal().getName() {}", jaxrsContext.getSecurityContext().getUserPrincipal().getName());
                 Account account = accountRepository.findByUsername(jaxrsContext.getSecurityContext().getUserPrincipal().getName());
                 return new AccountDetails(jaxrsContext.getSecurityContext().getUserPrincipal().getName(), account.getRole());
             } catch (NotFoundException e) {

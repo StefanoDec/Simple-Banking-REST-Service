@@ -32,6 +32,7 @@ public class BankRestApiImpl implements BankRestApi {
 
     @Override
     public List<AccountResponse> getAllServiceAccounts() {
+        LOG.debug("jaxrsContext.getSecurityContext().getUserPrincipal().getName() {}", jaxrsContext.getSecurityContext().getUserPrincipal().getName());
         return accountRepository.findAll().stream()
                 .filter(account -> account.getRole() == Role.ADMIN || account.getRole() == Role.BANKER)
                 .map(account -> new AccountResponse(account.getIdAccount(), account.getName(), account.getSurname(), account.getUsername(), account.getRole()))

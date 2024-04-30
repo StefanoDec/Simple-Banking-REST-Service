@@ -45,7 +45,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Save Admin Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountRequest.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountRequest.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @POST
     @Path("/account/service/save-admin")
     @RolesAllowed({"ADMIN"})
@@ -62,7 +63,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Save Banker Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountRequest.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountRequest.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @POST
     @Path("/account/service")
     @RolesAllowed({"ADMIN"})
@@ -79,7 +81,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Customer Bank Accounts", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, array = @ArraySchema(schema = @Schema(implementation = AccountAndBankAccount.class))),
                     @Content(mediaType = MediaType.APPLICATION_XML, array = @ArraySchema(schema = @Schema(implementation = AccountAndBankAccount.class)))})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @GET
     @Path("/account/bank-account")
     @RolesAllowed({"ADMIN", "BANKER"})
@@ -89,7 +92,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Customer Bank Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountAndBankAccount.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @GET
     @Path("/account/{id}/bank-account")
     @RolesAllowed({"ADMIN", "BANKER", "CUSTOMER"})
@@ -99,7 +103,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Save Customer Bank Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = OpenBankAccountRequest.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = OpenBankAccountRequest.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @POST
     @Path("/account/bank-account")
     @RolesAllowed({"ADMIN", "BANKER"})
@@ -116,7 +121,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Delete Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Boolean.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = Boolean.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @DELETE
     @Path("/account/{id}")
     @RolesAllowed({"ADMIN"})
@@ -126,7 +132,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Deposit money in Bank Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountAndBankAccount.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PUT
     @Path("/account/bank-account/{id}/deposit")
     @RolesAllowed({"ADMIN", "BANKER", "CUSTOMER"})
@@ -143,7 +150,8 @@ public interface BankRestApi {
             @ApiResponse(description = "Withdraw money in Bank Account", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = AccountAndBankAccount.class)),
                     @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = AccountAndBankAccount.class)),})
-    })
+    },
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PUT
     @Path("/account/bank-account/{id}/withdraw")
     @RolesAllowed({"ADMIN", "BANKER", "CUSTOMER"})
@@ -163,7 +171,6 @@ public interface BankRestApi {
             @ApiResponse(responseCode = "200", description = "Authentication successful", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TokenResponse.class))),
             @ApiResponse(responseCode = "401", description = "Authentication failed")
     })
-
     @POST
     @Path("/login")
     public Response login(@RequestBody(description = "Login",

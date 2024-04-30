@@ -19,7 +19,7 @@
     },
     "servers": [
       {
-        "url": "http://localhost:8080/SimpleBankingRESTService/rest",
+        "url": "https://simplebankingrestservice.sose.univaq.it:8443/SimpleBankingRESTService/rest",
         "description": "Little Apache CXF Project for Banking System."
       }
     ]
