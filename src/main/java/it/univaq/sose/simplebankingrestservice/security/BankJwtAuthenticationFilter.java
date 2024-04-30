@@ -1,13 +1,8 @@
 package it.univaq.sose.simplebankingrestservice.security;
 
-import org.apache.cxf.jaxrs.utils.JAXRSUtils;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.message.MessageUtils;
-import org.apache.cxf.rs.security.jose.common.JoseConstants;
 import org.apache.cxf.rs.security.jose.common.JoseException;
 import org.apache.cxf.rs.security.jose.jaxrs.JwtAuthenticationFilter;
 import org.apache.cxf.rs.security.jose.jaxrs.JwtTokenSecurityContext;
-import org.apache.cxf.rs.security.jose.jwa.SignatureAlgorithm;
 import org.apache.cxf.rs.security.jose.jwt.JwtToken;
 import org.apache.cxf.security.SecurityContext;
 import org.slf4j.Logger;
@@ -37,9 +32,8 @@ public class BankJwtAuthenticationFilter extends JwtAuthenticationFilter {
             super.filter(requestContext);
         } catch (JoseException e) {
             String type = requestContext.getHeaderString("Accept");
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).type(type).build());
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("{\"error\": \"" + e.getMessage() + "\"}").type(type).build());
         }
-
     }
 
     @Override

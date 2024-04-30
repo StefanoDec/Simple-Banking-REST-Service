@@ -164,23 +164,20 @@ public interface BankRestApi {
             }
     ) MoneyTransfer moneyTransfer, @PathParam(value = "id") long id) throws NotFoundException, InsufficientFundsException;
 
-
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @Operation(operationId = "login", description = "Authenticate user and return JWT", responses = {
-            @ApiResponse(responseCode = "200", description = "Authentication successful", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TokenResponse.class))),
+            @ApiResponse(responseCode = "200", description = "Authentication successful", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = TokenResponse.class)),
+                    @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = TokenResponse.class))}),
             @ApiResponse(responseCode = "401", description = "Authentication failed")
     })
     @POST
     @Path("/login")
     public Response login(@RequestBody(description = "Login",
             required = true,
-            content = {@Content(mediaType = MediaType.APPLICATION_JSON,
-                    schema = @Schema(implementation = UserCredentials.class)),
-                    @Content(mediaType = MediaType.APPLICATION_XML,
-                            schema = @Schema(implementation = UserCredentials.class)),
+            content = {@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserCredentials.class)),
+                    @Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = UserCredentials.class)),
             }
-    ) UserCredentials credentials);
+    ) UserCredentials credentials) throws NotFoundException;
 
 
 }
