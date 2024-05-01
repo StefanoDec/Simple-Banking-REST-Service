@@ -45,7 +45,7 @@ public interface BankRestApi {
     @GET
     @Path("/account/service")
     @RolesAllowed({"ADMIN"})
-    void getAllServiceAccounts(@Suspended final AsyncResponse asyncResponse);
+    void getAllServiceAccountsAsync(@Suspended final AsyncResponse asyncResponse);
 
     @Operation(operationId = "saveAdminAccount", description = "saveAdminAccount", responses = {
             @ApiResponse(description = "Save Admin Account", content = {
@@ -110,7 +110,7 @@ public interface BankRestApi {
     @GET
     @Path("/account/bank-account")
     @RolesAllowed({"ADMIN", "BANKER"})
-    void getAllAccountsAndBankAccounts(@Suspended final AsyncResponse asyncResponse);
+    void getAllAccountsAndBankAccountsAsync(@Suspended final AsyncResponse asyncResponse);
 
     @Operation(operationId = "getAccountAndBankAccount", description = "getAccountAndBankAccount", responses = {
             @ApiResponse(description = "Customer Bank Account", content = {
@@ -127,7 +127,7 @@ public interface BankRestApi {
     @GET
     @Path("/account/{id}/bank-account")
     @RolesAllowed({"ADMIN", "BANKER", "CUSTOMER"})
-    void getAccountAndBankAccount(@PathParam(value = "id") long id, @Suspended final AsyncResponse asyncResponse);
+    void getAccountAndBankAccountAsync(@PathParam(value = "id") long id, @Suspended final AsyncResponse asyncResponse);
 
     @Operation(operationId = "saveAccountAndBankAccount", description = "saveAccountAndBankAccount", responses = {
             @ApiResponse(description = "Save Customer Bank Account", content = {
@@ -185,7 +185,7 @@ public interface BankRestApi {
     @PUT
     @Path("/account/bank-account/{id}/deposit")
     @RolesAllowed({"ADMIN", "BANKER", "CUSTOMER"})
-    void depositMoneyInBankAccount(@RequestBody(description = "Money Transfer",
+    void depositMoneyInBankAccountAsync(@RequestBody(description = "Money Transfer",
             required = true,
             content = {@Content(mediaType = MediaType.APPLICATION_JSON,
                     schema = @Schema(implementation = MoneyTransfer.class)),

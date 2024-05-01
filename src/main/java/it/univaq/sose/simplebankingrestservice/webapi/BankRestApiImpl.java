@@ -32,7 +32,7 @@ public class BankRestApiImpl implements BankRestApi {
 
 
     @Override
-    public void getAllServiceAccounts(AsyncResponse asyncResponse) {
+    public void getAllServiceAccountsAsync(AsyncResponse asyncResponse) {
         new Thread(() -> {
             try {
                 Thread.sleep(2000);
@@ -55,9 +55,7 @@ public class BankRestApiImpl implements BankRestApi {
     public AccountResponse saveAdminAccount(AccountRequest request) {
         Account account = new Account(0, request.getName(), request.getSurname(), request.getUsername(), request.getPassword(), Role.ADMIN);
         long idAccount = accountRepository.save(account);
-        LOG.info("Risposta saveAdminAccount");
         AccountResponse accountResponse = new AccountResponse(idAccount, account.getName(), account.getSurname(), account.getUsername(), account.getRole());
-        LOG.info("{}", accountResponse);
         return accountResponse;
     }
 
@@ -70,7 +68,7 @@ public class BankRestApiImpl implements BankRestApi {
     }
 
     @Override
-    public void getAllAccountsAndBankAccounts(AsyncResponse asyncResponse) {
+    public void getAllAccountsAndBankAccountsAsync(AsyncResponse asyncResponse) {
         new Thread(() -> {
             try {
                 Thread.sleep(2000);
@@ -104,7 +102,7 @@ public class BankRestApiImpl implements BankRestApi {
     }
 
     @Override
-    public void getAccountAndBankAccount(long id, AsyncResponse asyncResponse) {
+    public void getAccountAndBankAccountAsync(long id, AsyncResponse asyncResponse) {
         String username = jaxrsContext.getSecurityContext().getUserPrincipal().getName();
         new Thread(() -> {
             try {
@@ -156,7 +154,7 @@ public class BankRestApiImpl implements BankRestApi {
     }
 
     @Override
-    public void depositMoneyInBankAccount(MoneyTransfer moneyTransfer, long id, AsyncResponse asyncResponse) {
+    public void depositMoneyInBankAccountAsync(MoneyTransfer moneyTransfer, long id, AsyncResponse asyncResponse) {
         String username = jaxrsContext.getSecurityContext().getUserPrincipal().getName();
         new Thread(() -> {
             try {
