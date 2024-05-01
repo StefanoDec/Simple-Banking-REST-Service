@@ -29,4 +29,17 @@ public final class AuthenticationUtils {
         }
         throw new AuthenticationException("You are not authorised to make this request");
     }
+
+    public static AccountDetails getAuthenticationDetails(String username) {
+        if (username != null && !username.isEmpty()) {
+            AccountRepository accountRepository = AccountRepository.getInstance();
+            try {
+                Account account = accountRepository.findByUsername(username);
+                return new AccountDetails(username, account.getRole());
+            } catch (NotFoundException e) {
+                throw new AuthenticationException("You are not authorised to make this request");
+            }
+        }
+        throw new AuthenticationException("You are not authorised to make this request");
+    }
 }

@@ -1,5 +1,6 @@
 package it.univaq.sose.simplebankingrestservice.security;
 
+import it.univaq.sose.simplebankingrestservice.dto.ErrorResponse;
 import org.apache.cxf.rs.security.jose.common.JoseException;
 import org.apache.cxf.rs.security.jose.jaxrs.JwtAuthenticationFilter;
 import org.apache.cxf.rs.security.jose.jaxrs.JwtTokenSecurityContext;
@@ -9,8 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+
+import static it.univaq.sose.simplebankingrestservice.util.Utils.getFirstMediaType;
 
 public class BankJwtAuthenticationFilter extends JwtAuthenticationFilter {
     private static final Logger LOG = LoggerFactory.getLogger(BankJwtAuthenticationFilter.class);
@@ -31,8 +35,9 @@ public class BankJwtAuthenticationFilter extends JwtAuthenticationFilter {
         try {
             super.filter(requestContext);
         } catch (JoseException e) {
-            String type = requestContext.getHeaderString("Accept");
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("{\"error\": \"" + e.getMessage() + "\"}").type(type).build());
+            String acceptHeader = requestContext.getHeaderString("Accept");
+            MediaType type = getFirstMediaType(acceptHeader);
+            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(new ErrorResponse(e.getMessage())).type(type).build());
         }
     }
 

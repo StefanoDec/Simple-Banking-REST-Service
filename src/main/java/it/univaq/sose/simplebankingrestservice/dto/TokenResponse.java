@@ -1,5 +1,8 @@
 package it.univaq.sose.simplebankingrestservice.dto;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.StringJoiner;
+
+@XmlRootElement(name = "TokenResponse")
 public class TokenResponse {
     private String token;
     public TokenResponse() {
