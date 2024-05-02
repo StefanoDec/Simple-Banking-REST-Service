@@ -8,7 +8,7 @@ import org.apache.cxf.rs.security.jose.jwt.JwtClaims;
 import org.apache.cxf.rs.security.jose.jwt.JwtToken;
 
 public class JwtUtil {
-    private static final String SECRET_KEY = "your_secret_key_here";
+    private static final String SECRET_KEY = "3f8bRb6!fc84c8#8^aB5Df99*45d&Ef2";
 
     private JwtUtil() {
         throw new IllegalStateException("JWT Utility class");
@@ -26,10 +26,10 @@ public class JwtUtil {
         JwsHeaders headers = new JwsHeaders(JoseType.JWT, SignatureAlgorithm.HS256);
 
         JwtClaims claims = new JwtClaims();
-        claims.setSubject(username);// L'utente per cui il token è valido
-        claims.setClaim("role", role.toString()); // Il ruolo in stringa
+        claims.setSubject(username);// The user for whom the token is valid
+        claims.setClaim("role", role.toString()); // The role in string
         claims.setIssuedAt(System.currentTimeMillis() / 1000);
-        claims.setExpiryTime((System.currentTimeMillis() / 1000) + 3600);  // Token valido per 1 ora
+        claims.setExpiryTime((System.currentTimeMillis() / 1000) + 3600);  // Token valid for 1 H
 
 
         JwtToken token = new JwtToken(headers, claims);
